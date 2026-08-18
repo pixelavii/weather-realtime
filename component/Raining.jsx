@@ -33,7 +33,10 @@ const Raining = ({ weather }) => {
   const stats = [
     { label: "FEELS LIKE", value: `${Math.round(current.feelslike_c)}°` },
     { label: "HUMIDITY", value: `${current.humidity}%` },
-    { label: "WIND", value: `${Math.round(current.wind_kph)} km/h ${current.wind_dir}` },
+    {
+      label: "WIND",
+      value: `${Math.round(current.wind_kph)} km/h ${current.wind_dir}`,
+    },
     { label: "UV INDEX", value: `${current.uv}` },
     { label: "VISIBILITY", value: `${current.vis_km} km` },
   ];
@@ -126,13 +129,22 @@ const Raining = ({ weather }) => {
         <div>
           <p
             className="text-[13px] uppercase tracking-[0.25em]"
-            style={{ color: "#C9AD8C", fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{
+              color: "#C9AD8C",
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
           >
-            {location.region ? `${location.region}, ${location.country}` : location.country}
+            {location.region
+              ? `${location.region}, ${location.country}`
+              : location.country}
           </p>
           <h1
             className="mt-1 text-2xl sm:text-3xl"
-            style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontWeight: 500 }}
+            style={{
+              color: "#FBEFE0",
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 500,
+            }}
           >
             {location.name}
           </h1>
@@ -140,13 +152,20 @@ const Raining = ({ weather }) => {
         <div className="text-right">
           <p
             className="text-[13px] uppercase tracking-[0.25em]"
-            style={{ color: "#C9AD8C", fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{
+              color: "#C9AD8C",
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
           >
             Local time
           </p>
           <p
             className="mt-1 text-2xl sm:text-3xl tabular-nums"
-            style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontWeight: 500 }}
+            style={{
+              color: "#FBEFE0",
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 500,
+            }}
           >
             {clock}
           </p>
@@ -155,7 +174,7 @@ const Raining = ({ weather }) => {
 
       {/* Bottom block — temperature, condition, stats */}
       <div
-        className="absolute bottom-0 left-0 right-0 px-8 pb-10 sm:px-12 sm:pb-14"
+        className="absolute md:bottom-0 bottom-16 left-0 right-0 px-8 pb-10 sm:px-12 sm:pb-14"
         style={{ animation: "riseIn 0.9s ease-out both" }}
       >
         <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
@@ -176,13 +195,20 @@ const Raining = ({ weather }) => {
             <div className="pb-3 sm:pb-5">
               <p
                 className="text-lg sm:text-xl"
-                style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontStyle: "italic" }}
+                style={{
+                  color: "#FBEFE0",
+                  fontFamily: "'Fraunces', serif",
+                  fontStyle: "italic",
+                }}
               >
                 {current.condition.text}
               </p>
               <p
-                className="mt-1 text-[13px] uppercase tracking-[0.2em]"
-                style={{ color: "#E8A33D", fontFamily: "'Space Grotesk', sans-serif" }}
+                className="mt-1 text-[8px] md:text-[13px] uppercase tracking-[0.2em]"
+                style={{
+                  color: "#E8A33D",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 Sunrise {astro?.sunrise} · Sunset {astro?.sunset}
               </p>
@@ -196,13 +222,19 @@ const Raining = ({ weather }) => {
             <div key={s.label}>
               <p
                 className="text-[11px] uppercase tracking-[0.25em]"
-                style={{ color: "#8C7A63", fontFamily: "'Space Grotesk', sans-serif" }}
+                style={{
+                  color: "#8C7A63",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 {s.label}
               </p>
               <p
                 className="mt-1 text-base sm:text-lg tabular-nums"
-                style={{ color: "#FBEFE0", fontFamily: "'Space Grotesk', sans-serif" }}
+                style={{
+                  color: "#FBEFE0",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 {s.value}
               </p>

@@ -9,7 +9,6 @@ import Snow from "./Snow";
 import Fogmist from "./Fogmist";
 
 function getWeatherComponent(weather) {
-  const condition = weather.current.condition.text.toLowerCase();
   const conditionCode = weather.current.condition.code;
 
   const now = new Date();

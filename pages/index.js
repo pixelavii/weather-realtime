@@ -19,7 +19,7 @@ export default function Home () {
         const { latitude, longitude } = position.coords
         try {
           const res = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?q=27.9881,86.9250`,
+            `https://api.weatherapi.com/v1/forecast.json?q=${latitude},${longitude}`,
             {
               method: 'GET',
               headers: {
@@ -29,7 +29,6 @@ export default function Home () {
             }
           )
           const data = await res.json()
-          console.log('This is the data:', data)
           setWeather(data)
         } catch (err) {
           setError('Failed to fetch weather')

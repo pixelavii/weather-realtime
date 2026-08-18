@@ -19,7 +19,7 @@ export default function Home () {
         const { latitude, longitude } = position.coords
         try {
           const res = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?q=${latitude},${longitude}`,
+            `https://api.weatherapi.com/v1/forecast.json?q=27.9881,86.9250`,
             {
               method: 'GET',
               headers: {

@@ -155,7 +155,7 @@ const Sunrise = ({ weather }) => {
 
       {/* Bottom block — temperature, condition, stats */}
       <div
-        className="absolute bottom-0 left-0 right-0 px-8 pb-10 sm:px-12 sm:pb-14"
+        className="absolute md:bottom-0 bottom-16 left-0 right-0 px-8 pb-10 sm:px-12 sm:pb-14"
         style={{ animation: "riseIn 0.9s ease-out both" }}
       >
         <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
@@ -181,7 +181,7 @@ const Sunrise = ({ weather }) => {
                 {current.condition.text}
               </p>
               <p
-                className="mt-1 text-[13px] uppercase tracking-[0.2em]"
+                className="mt-1 text-[8px] md:text-[13px] uppercase tracking-[0.2em]"
                 style={{ color: "#E8A33D", fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 Sunrise {astro?.sunrise} · Sunset {astro?.sunset}

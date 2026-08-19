@@ -15,6 +15,7 @@ function getWeatherComponent(weather) {
   const timeInMinutes = now.getHours() * 60 + now.getMinutes();
 
   const NIGHT_START = 19 * 60; // 7:00 PM
+  const NIGHT_END = 6 * 60; // 6:00 AM
   const SUNSET_START = 16 * 60; // 4:00 PM
   const MORNING_END = 11 * 60; // 11:00 AM
 
@@ -24,12 +25,12 @@ function getWeatherComponent(weather) {
   ];
   const snowCodes = [
     1066, 1210, 1213, 1216, 1219, 1222, 1225, 1069, 1204, 1207, 1249, 1252,
-    1237, 1261, 1264, 1255, 1258, 1282,
+    1237, 1261, 1264, 1255, 1258, 1282, 1114, 1117,
   ];
   const cloudyCodes = [1003, 1006, 1009];
   const fogMist = [1030, 1033, 1036, 1039, 1042, 1135, 1147];
   const sunnyCodes = [
-    1000, 1012, 1015, 1018, 1021, 1024, 1027, 1045, 1048, 1072, 1114, 1117,
+    1000, 1012, 1015, 1018, 1021, 1024, 1027, 1045, 1048, 1072,
   ];
 
   const isRaining = rainCodes.includes(conditionCode);
@@ -38,8 +39,9 @@ function getWeatherComponent(weather) {
   const isSunny = sunnyCodes.includes(conditionCode);
   const isFogMist = fogMist.includes(conditionCode);
 
-  // 1. Night overrides everything except maybe rain/snow, your call
-  if (timeInMinutes >= NIGHT_START) {
+  // 1. Night overrides everything except maybe rain/snow/fogmist, your call
+  const isNight = timeInMinutes >= NIGHT_START || timeInMinutes < NIGHT_END;
+  if (isNight && (isSunny || isCloudy)) {
     return <Night weather={weather} />;
   }
 

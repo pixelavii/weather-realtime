@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 // Fixed particle field so it doesn't reshuffle on re-render
 const DUST_PARTICLES = Array.from({ length: 22 }).map((_, i) => ({
@@ -11,13 +11,20 @@ const DUST_PARTICLES = Array.from({ length: 22 }).map((_, i) => ({
   drift: 40 + ((i * 17) % 90),
 }));
 
-function formatClock(localtime) {
-  if (!localtime) return "";
-  const d = new Date(localtime.replace(" ", "T"));
-  return d.toLocaleTimeString("en-US", {
+function useLiveClock(timeZone) {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (!timeZone) return "";
+  return now.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
+    timeZone,
   });
 }
 
@@ -26,7 +33,7 @@ const Fogmist = ({ weather }) => {
   const current = weather?.current;
   const astro = weather?.forecast?.forecastday?.[0]?.astro;
 
-  const clock = useMemo(() => formatClock(location?.localtime), [location]);
+  const clock = useLiveClock(location?.tz_id);
 
   if (!current || !location) return null;
 

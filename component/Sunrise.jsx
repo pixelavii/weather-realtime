@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 // Fixed particle field so it doesn't reshuffle on re-render
 const DUST_PARTICLES = Array.from({ length: 22 }).map((_, i) => ({
@@ -11,13 +11,20 @@ const DUST_PARTICLES = Array.from({ length: 22 }).map((_, i) => ({
   drift: 40 + ((i * 17) % 90),
 }));
 
-function formatClock(localtime) {
-  if (!localtime) return "";
-  const d = new Date(localtime.replace(" ", "T"));
-  return d.toLocaleTimeString("en-US", {
+function useLiveClock(timeZone) {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  if (!timeZone) return "";
+  return now.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
+    timeZone,
   });
 }
 
@@ -26,14 +33,17 @@ const Sunrise = ({ weather }) => {
   const current = weather?.current;
   const astro = weather?.forecast?.forecastday?.[0]?.astro;
 
-  const clock = useMemo(() => formatClock(location?.localtime), [location]);
+  const clock = useLiveClock(location?.tz_id);
 
   if (!current || !location) return null;
 
   const stats = [
     { label: "FEELS LIKE", value: `${Math.round(current.feelslike_c)}°` },
     { label: "HUMIDITY", value: `${current.humidity}%` },
-    { label: "WIND", value: `${Math.round(current.wind_kph)} km/h ${current.wind_dir}` },
+    {
+      label: "WIND",
+      value: `${Math.round(current.wind_kph)} km/h ${current.wind_dir}`,
+    },
     { label: "UV INDEX", value: `${current.uv}` },
     { label: "VISIBILITY", value: `${current.vis_km} km` },
   ];
@@ -126,13 +136,22 @@ const Sunrise = ({ weather }) => {
         <div>
           <p
             className="text-[13px] uppercase tracking-[0.25em]"
-            style={{ color: "#C9AD8C", fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{
+              color: "#C9AD8C",
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
           >
-            {location.region ? `${location.region}, ${location.country}` : location.country}
+            {location.region
+              ? `${location.region}, ${location.country}`
+              : location.country}
           </p>
           <h1
             className="mt-1 text-2xl sm:text-3xl"
-            style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontWeight: 500 }}
+            style={{
+              color: "#FBEFE0",
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 500,
+            }}
           >
             {location.name}
           </h1>
@@ -140,13 +159,20 @@ const Sunrise = ({ weather }) => {
         <div className="text-right">
           <p
             className="text-[13px] uppercase tracking-[0.25em]"
-            style={{ color: "#C9AD8C", fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{
+              color: "#C9AD8C",
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}
           >
             Local time
           </p>
           <p
             className="mt-1 text-2xl sm:text-3xl tabular-nums"
-            style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontWeight: 500 }}
+            style={{
+              color: "#FBEFE0",
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 500,
+            }}
           >
             {clock}
           </p>
@@ -176,13 +202,20 @@ const Sunrise = ({ weather }) => {
             <div className="pb-3 sm:pb-5">
               <p
                 className="text-lg sm:text-xl"
-                style={{ color: "#FBEFE0", fontFamily: "'Fraunces', serif", fontStyle: "italic" }}
+                style={{
+                  color: "#FBEFE0",
+                  fontFamily: "'Fraunces', serif",
+                  fontStyle: "italic",
+                }}
               >
                 {current.condition.text}
               </p>
               <p
                 className="mt-1 text-[8px] md:text-[13px] uppercase tracking-[0.2em]"
-                style={{ color: "#E8A33D", fontFamily: "'Space Grotesk', sans-serif" }}
+                style={{
+                  color: "#E8A33D",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 Sunrise {astro?.sunrise} · Sunset {astro?.sunset}
               </p>
@@ -196,13 +229,19 @@ const Sunrise = ({ weather }) => {
             <div key={s.label}>
               <p
                 className="text-[11px] uppercase tracking-[0.25em]"
-                style={{ color: "#8C7A63", fontFamily: "'Space Grotesk', sans-serif" }}
+                style={{
+                  color: "#8C7A63",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 {s.label}
               </p>
               <p
                 className="mt-1 text-base sm:text-lg tabular-nums"
-                style={{ color: "#FBEFE0", fontFamily: "'Space Grotesk', sans-serif" }}
+                style={{
+                  color: "#FBEFE0",
+                  fontFamily: "'Space Grotesk', sans-serif",
+                }}
               >
                 {s.value}
               </p>
